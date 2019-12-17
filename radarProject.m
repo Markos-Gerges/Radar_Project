@@ -106,11 +106,11 @@ P1 = P2(1:Nr/2-1);
 
 %plotting the range
 figure ('Name','Range from First FFT')
-subplot(2,1,1)
+subplot(2,1,1);
 
 % *%TODO* :
 % plot FFT output 
-plot(P1)
+plot(P1);
  
 axis ([0 200 0 1]);
 
@@ -158,7 +158,7 @@ Gr = 4;
 Gd = 4;
 % *%TODO* :
 % offset the threshold by SNR value in dB
-offset=6;
+offset=3;
 % *%TODO* :
 
 
@@ -178,6 +178,7 @@ offset=6;
    % Use RDM[x,y] as the matrix from the output of 2D FFT for implementing
    % CFAR
 
+RDM = RDM/max(max(RDM));
 for i = Tr+Gr+1:(Nr/2)-(Gr+Tr)
        for j = Td+Gd+1:Nd-(Gd+Td)
            %Create a vector to store noise_level for each iteration on training cells
@@ -212,13 +213,14 @@ for i = Tr+Gr+1:(Nr/2)-(Gr+Tr)
 %matrix. Hence,few cells will not be thresholded. To keep the map size same
 % set those values to 0. 
 
-for a = 1:Nr
+for a = 1:Nr/2
     for b=1:Nd
-        if ((RDM(a|b) ~= 0) && (RDM(a|b) ~= 1))
+        if (RDM(a,b) ~= 0 && RDM(a,b) ~= 1)
             RDM(a,b) = 0;
         end
     end
 end
+
 
 
 
